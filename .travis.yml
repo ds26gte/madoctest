@@ -1,0 +1,32 @@
+language: ruby
+rvm:
+  - 2.2
+env:
+  global:
+    - RACKET_DIR=~/racket
+    - RACKET_VERSION=6.12
+sudo: required
+git:
+  quiet: true
+branches:
+  only:
+    - /.*/
+
+before_install:
+  - git clone https://github.com/greghendershott/travis-racket.git
+  - cat travis-racket/install-racket.sh | bash
+  - export PATH="${RACKET_DIR}/bin:${PATH}"
+  - gem install asciidoctor
+  - wget https://downloads.wkhtmltopdf.org/0.12/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+  - tar xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+  - sudo mv wkhtmltox/bin/wkhtmlto* /usr/bin
+  - sudo apt-get install -y pdftk
+
+script:
+  - ./build-something-r.sh
+  - ./build-something-a.sh
+  - ./build-something-w.sh
+  - ./build-something-p.sh
+
+after_success:
+  - ./travis-push.sh
