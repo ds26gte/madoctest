@@ -23,6 +23,7 @@ before_install:
   - sudo apt-get install -y pdftk
 
 script:
+  - ls
   - ./build-something-r.sh
   - ./build-something-a.sh
   - ./build-something-w.sh
